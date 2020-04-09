@@ -1,0 +1,16 @@
+name: "PR Lint OpenAPI"
+on:
+  # only works on pull requests
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  test:
+    name: Lint OpenAPI
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: l-lin/spectral-comment-action@0.1.0
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        file-glob: api/*.yaml
