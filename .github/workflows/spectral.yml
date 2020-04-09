@@ -1,20 +1,17 @@
 name: Spectral Lint
-
 on:
   push:
     branches: [ master ]
   pull_request:
     branches: [ master ]
-
 jobs:
   spectralChecks:
     name: Spectral checks
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v2
       - name: Spectral checks
         uses: stoplightio/spectral-action@v0.5.5
         with:
-          file_glob: ./**/*.yml
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file_glob: api/*.yaml
           spectral_ruleset: 'spectral:oas'
