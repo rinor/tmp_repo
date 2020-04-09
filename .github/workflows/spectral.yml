@@ -13,6 +13,6 @@ jobs:
       - name: Spectral checks
         uses: stoplightio/spectral-action@v0.5.5
         with:
-          file_glob: api/*.yaml
+          file_glob: ../../api/*.yaml
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           spectral_ruleset: 'spectral:oas'
