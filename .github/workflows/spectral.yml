@@ -10,10 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - uses: stoplightio/spectral-action@v0.5.5
       - name: Spectral checks
-        uses: ./
+        uses: stoplightio/spectral-action@v0.5.5
         with:
-          file_glob: ./**/*.yaml
+          file_glob: api/*.yaml
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           spectral_ruleset: 'spectral:oas'
