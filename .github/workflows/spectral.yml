@@ -9,19 +9,19 @@ jobs:
     name: Spectral checks
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@master
       - name: Spectral checks
-        uses: stoplightio/spectral-action@v0.5.5
+        uses: ./
         with:
-          file_glob: ./*.yaml
+          file_glob: ./**/*.yaml
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           spectral_ruleset: 'spectral:oas'
   test:
     name: Lint OpenAPI
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v1
     - uses: l-lin/spectral-comment-action@0.1.0
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file-glob: ./*.yaml
+        file-glob: ./**/*.yaml
