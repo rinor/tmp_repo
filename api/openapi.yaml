@@ -5,7 +5,7 @@ info:
 paths:
   '/api/v0/account/{account_id}':
     get:
-      descriptions: Gets account state
+      description: Gets account state
       parameters:
         - name: account_id
           in: path
