@@ -1,4 +1,4 @@
-name: Spectral Lint
+name: API Lint
 on:
   push:
     branches: [ master ]
@@ -13,7 +13,7 @@ jobs:
     name: Spectral checks
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v2
       - name: Spectral checks
         uses: stoplightio/spectral-action@v0.5.5
         with:
