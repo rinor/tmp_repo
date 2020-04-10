@@ -2,11 +2,11 @@ openapi: 3.0.2
 info:
   title: Generic blockchain node REST API
   version: 0.0.1
-paths:
+path:
   '/api/v0/account/{account_id}':
     get:
       description: Gets account state
-      parameters:
+      parameterss:
         - name: account_id
           in: path
           required: true
