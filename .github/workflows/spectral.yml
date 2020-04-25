@@ -1,6 +1,8 @@
 name: API Lint
 on:
   push:
+    branches:
+      - master
     paths:
       - 'doc/api/*.yaml'
   pull_request:
