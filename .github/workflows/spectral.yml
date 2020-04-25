@@ -6,6 +6,8 @@ on:
     paths:
       - 'doc/api/*.yaml'
   pull_request:
+    branches: 
+      - master
     paths:
       - 'doc/api/*.yaml'
 jobs:
