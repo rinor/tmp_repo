@@ -1,11 +1,5 @@
 name: API Check
-on:
-  push:
-    paths:
-      - 'doc/api/*.yaml'
-  pull_request:
-    paths:
-      - 'doc/api/*.yaml'
+on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
