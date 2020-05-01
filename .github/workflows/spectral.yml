@@ -12,3 +12,4 @@ jobs:
         with:
           file_glob: doc/api/*.yaml
           repo_token: ${{ secrets.GITHUB_TOKEN }}
+          spectral_ruleset: ''
