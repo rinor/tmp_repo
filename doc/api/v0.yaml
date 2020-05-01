@@ -19,7 +19,6 @@ tags:
   - name: rewards
   - name: stake
   - name: utils
-  - name: vote
 
 paths:
   '/api/v0/account/{account_id}':
