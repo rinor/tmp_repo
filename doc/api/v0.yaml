@@ -1,6 +1,5 @@
 openapi: 3.0.2
 
-
 info:
   title: Generic blockchain node REST API
   description: Jörmungandr Rest API v0
