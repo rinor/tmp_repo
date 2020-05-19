@@ -20,16 +20,20 @@ jobs:
       - name: redoc-cli test
         uses: seeebiii/redoc-cli-github-action@v9
         with:
-          args: 'bundle doc/api/v0.yaml -o v0.html'
+          args: 'bundle doc/api/v0.yaml -o html/index.html'
 
       - name: check result
         run: |
           ls -al
-          test -f v0.html || (echo "Missing v0.html from previous step." && exit 1)
+          test -f index.html || (echo "Missing index.html from previous step." && exit 1)
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
+          commit_message: ${{ github.event.head_commit.message }}
+          publish_dir: ./html
           publish_branch: gh-pages  # deploying branch
+
