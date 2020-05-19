@@ -6,6 +6,7 @@ info:
   version: 0.0.1
   contact:
     url: ''
+
 servers:
   - url: 'https://localhost'
 
@@ -730,7 +731,7 @@ paths:
                   lastBlockHash:
                     description: "The block hash, it's unique identifier in the blockchain"
                     type: string
-                    pattern: '[0-9a-fA-F]+'
+                    pattern: '[0-9a-f]+'
                   lastBlockHeight:
                     description: 'The block number, in order, since the block0'
                     type: number
@@ -787,7 +788,7 @@ paths:
                     description: Node app version
                     type: string
               examples:
-                application/json:
+                Running:
                   value: |
                     {
                       "blockRecvCnt": 1102,
@@ -839,7 +840,7 @@ paths:
                   block0Hash:
                     description: Hex-encoded hash of block0
                     type: string
-                    pattern: '[0-9a-fA-F]+'
+                    pattern: '[0-9a-f]+'
                   block0Time:
                     description: When block0 was created
                     type: string
@@ -874,22 +875,6 @@ paths:
                         description: Fee per certificate used in witness
                         type: integer
                         minimum: 0
-                      per_certificate_fees:
-                        description: 'Fee per certificate operations, all zero if this object absent'
-                        type: object
-                        properties:
-                          certificate_pool_registration:
-                            description: 'Fee per pool registration, zero if absent'
-                            type: integer
-                            minimum: 1
-                          certificate_stake_delegation:
-                            description: 'Fee per stake delegation, zero if absent'
-                            type: integer
-                            minimum: 1
-                          certificate_owner_stake_delegation:
-                            description: 'Fee per pool owner stake delegation, zero if absent'
-                            type: integer
-                            minimum: 1
                       coefficient:
                         description: Fee per every input and output of transaction
                         type: integer
@@ -898,6 +883,34 @@ paths:
                         description: Base fee per transaction
                         type: integer
                         minimum: 0
+                      per_certificate_fees:
+                        description: 'Fee per pool delegation/registration certificate operations'
+                        type: object
+                        properties:
+                          certificate_pool_registration:
+                            description: 'Fee per pool registration'
+                            type: integer
+                            minimum: 1
+                          certificate_stake_delegation:
+                            description: 'Fee per stake delegation'
+                            type: integer
+                            minimum: 1
+                          certificate_owner_stake_delegation:
+                            description: 'Fee per pool owner stake delegation'
+                            type: integer
+                            minimum: 1
+                      per_vote_certificate_fees:
+                        description: 'Fee per vote certificate operations'
+                        type: object
+                        properties:
+                          certificate_vote_cast:
+                            description: 'Fee per vote cast certificate'
+                            type: integer
+                            minimum: 1
+                          certificate_vote_plan:
+                            description: 'Fee per vote plan certificate'
+                            type: integer
+                            minimum: 1
                   rewardParams:
                     description: Parameters for rewards calculation
                     type: object
@@ -977,23 +990,23 @@ paths:
                         minimum: 1
                         nullable: true
               examples:
-                application/json:
-                  value: |
+                genesis_praos:
+                  value:
                     {
                       "block0Hash": "8d94ecfcc9a566f492e6335858db645691f628b012bed4ac2b1338b5690355a7",
                       "block0Time": "2019-07-09T12:32:51+00:00",
                       "blockContentMaxSize": 102400,
-                      "consensusVersion": "bft",
+                      "consensusVersion": "genesis",
                       "currSlotStartTime": "2019-07-18T22:01:17+00:00",
                       "fees": {
                         "certificate": 4,
+                        "coefficient": 3,
+                        "constant": 2,
                         "per_certificate_fees": {
                           "certificate_pool_registration": 5,
                           "certificate_stake_delegation": 3,
                           "certificate_owner_stake_delegation": 4,
                         }
-                        "coefficient": 1,
-                        "constant": 2
                       },
                       "rewardParams": {
                           "compoundingRatio": {
@@ -1010,9 +1023,9 @@ paths:
                       "treasuryTax": {
                         "fixed": 5,
                         "ratio": {
-                          "numerator": 1
+                          "numerator": 1,
                           "denominator": 10000,
-                        }
+                        },
                         "max": 100,
                       }
                     }
@@ -1046,7 +1059,7 @@ paths:
                   type: string
                   pattern: '[0-9a-fA-F]+'
               examples:
-                "Pools":
+                pool_list:
                   value: [
                     5cf03f333f37eb7b987dbc9017b8a928287a3d77d086cd93cd9ad05bcba7e60f,
                     c780f14f9782770014d8bcd514b1bc664653d15f73a7158254730c6e1aa9f356
@@ -1109,8 +1122,8 @@ paths:
                     - epoch
                     - accounts
               examples:
-                application/json:
-                  value: |
+                epoch_82:
+                  value:
                     [
                       {
                         "epoch": 82,
@@ -1132,7 +1145,7 @@ paths:
                           "ed25519_pk1qqymlwehsztpzhy2k4szkp7j0xk0ra35jyxcpgr9p9q4ngvzzc5q4sh2gm": 24399360,
                           "ed25519_pk1qq9h62jv6a0mz36xgecjrz9tm8z6ay3vj4d64ashxkgxcyhjewwsvgvelj": 22449169,
                           "ed25519_pk1qq9l2qrqazk5fp4kt2kvjtsjc32g0ud888um8k2pvms0cw2r0uzsute83u": 1787992,
-                          "ed25519_pk1qqx6h559ee7pa67dm255d0meekt6dmq6857x302wdwrhzv47z9hqucdnt2": 369024,
+                          "ed25519_pk1qqx6h559ee7pa67dm255d0meekt6dmq6857x302wdwrhzv47z9hqucdnt2": 369024
                         }
                       }
                     ]
@@ -1194,8 +1207,8 @@ paths:
                     - epoch
                     - accounts
               examples:
-                application/json:
-                  value: |
+                history2epochs:
+                  value:
                     [
                       {
                         "epoch": 82,
@@ -1217,30 +1230,30 @@ paths:
                           "ed25519_pk1qqymlwehsztpzhy2k4szkp7j0xk0ra35jyxcpgr9p9q4ngvzzc5q4sh2gm": 24399360,
                           "ed25519_pk1qq9h62jv6a0mz36xgecjrz9tm8z6ay3vj4d64ashxkgxcyhjewwsvgvelj": 22449169,
                           "ed25519_pk1qq9l2qrqazk5fp4kt2kvjtsjc32g0ud888um8k2pvms0cw2r0uzsute83u": 1787992,
-                          "ed25519_pk1qqx6h559ee7pa67dm255d0meekt6dmq6857x302wdwrhzv47z9hqucdnt2": 369024,
+                          "ed25519_pk1qqx6h559ee7pa67dm255d0meekt6dmq6857x302wdwrhzv47z9hqucdnt2": 369024
+                        }
+                      },
+                      {
+                        "epoch": 81,
+                        "drawn": 3835616440000,
+                        "fees": 1828810000,
+                        "treasury": 462179124139,
+                        "stake_pools": {
+                          "0087011b9c626759f19d9d0315a9b42492ba497438c12efc026d664c9f324ecb": [
+                            1683091391,
+                            32665712521
+                          ],
+                          "014bb0d84f40900f6dd85835395bc38da3ab81435d1e6ee27d419d6eeaf7d16a": [
+                            47706672,
+                            906426770
+                          ],
                         },
-                        {
-                          "epoch": 81,
-                          "drawn": 3835616440000,
-                          "fees": 1828810000,
-                          "treasury": 462179124139,
-                          "stake_pools": {
-                            "0087011b9c626759f19d9d0315a9b42492ba497438c12efc026d664c9f324ecb": [
-                              1683091391,
-                              32665712521
-                            ],
-                            "014bb0d84f40900f6dd85835395bc38da3ab81435d1e6ee27d419d6eeaf7d16a": [
-                              47706672,
-                              906426770
-                            ],
-                          },
-                          "accounts": {
-                            "ed25519_pk1qqq6r7r7medu2kdpvdra5kwh8uz9frvftm9lf25shm7ygx9ayvss0nqke9": 427549785,
-                            "ed25519_pk1qqymlwehsztpzhy2k4szkp7j0xk0ra35jyxcpgr9p9q4ngvzzc5q4sh2gm": 24399360,
-                            "ed25519_pk1qq9h62jv6a0mz36xgecjrz9tm8z6ay3vj4d64ashxkgxcyhjewwsvgvelj": 22449169,
-                            "ed25519_pk1qq9l2qrqazk5fp4kt2kvjtsjc32g0ud888um8k2pvms0cw2r0uzsute83u": 1787992,
-                            "ed25519_pk1qqx6h559ee7pa67dm255d0meekt6dmq6857x302wdwrhzv47z9hqucdnt2": 369024,
-                          }
+                        "accounts": {
+                          "ed25519_pk1qqq6r7r7medu2kdpvdra5kwh8uz9frvftm9lf25shm7ygx9ayvss0nqke9": 427549785,
+                          "ed25519_pk1qqymlwehsztpzhy2k4szkp7j0xk0ra35jyxcpgr9p9q4ngvzzc5q4sh2gm": 24399360,
+                          "ed25519_pk1qq9h62jv6a0mz36xgecjrz9tm8z6ay3vj4d64ashxkgxcyhjewwsvgvelj": 22449169,
+                          "ed25519_pk1qq9l2qrqazk5fp4kt2kvjtsjc32g0ud888um8k2pvms0cw2r0uzsute83u": 1787992,
+                          "ed25519_pk1qqx6h559ee7pa67dm255d0meekt6dmq6857x302wdwrhzv47z9hqucdnt2": 369024
                         }
                       }
                     ]
@@ -1258,7 +1271,7 @@ paths:
           schema:
             description: Hex-encoded pool ID
             type: string
-            pattern: '[0-9a-fA-F]+'
+            pattern: '[0-9a-f]+'
       responses:
         '200':
           description: Success
@@ -1330,15 +1343,15 @@ paths:
                     description: Bech32-encoded stake pool VRF key
                     type: string
               examples:
-                application/json:
-                  value: |
+                stakepool01:
+                  value:
                     {
                       "tax": {
                         "fixed": 5,
                         "ratio": {
-                          "numerator": 1
+                          "numerator": 1,
                           "denominator": 10000,
-                        }
+                        },
                         "max": 100,
                       },
                       "rewards": {
@@ -1404,8 +1417,8 @@ paths:
                         type: integer
                         minimum: 0
               examples:
-                application/json:
-                  value: |
+                stake01:
+                  value:
                     {
                       "epoch": 0,
                       "stake": {
@@ -1480,8 +1493,8 @@ paths:
                         type: integer
                         minimum: 0
               examples:
-                application/json:
-                  value: |
+                stake_epoch0:
+                  value:
                     {
                       "epoch": 0,
                       "stake": {
@@ -1510,7 +1523,7 @@ paths:
               schema:
                 description: Hex-encoded ID of the blockchain tip
                 type: string
-                pattern: '[0-9a-fA-F]+'
+                pattern: '[0-9a-f]+'
               example: 8d94ecfcc9a566f492e6335858db645691f628b012bed4ac2b1338b5690355a7
 
   '/api/v0/utxo/{fragment_id}/{output_index}':
@@ -1555,8 +1568,8 @@ paths:
                     type: integer
                     minimum: 0
               examples:
-                application/json:
-                  value: |
+                UTxO_address:
+                  value:
                     {
                       "address": "ca1svs0mwkfky9htpam576mc93mee5709khre8dgnqslj6y3p5f77s5gpgv02w",
                       "value": 10000
@@ -2219,7 +2232,7 @@ paths:
                       type: string
                       description: the node public id
 
-  /api/v0/votes/active/committees:
+  /api/v0/vote/active/committees:
     get:
       description: Get committee members ID
       operationId: Committees
@@ -2241,13 +2254,13 @@ paths:
                   minLength: 64
                   maxLength: 64
               examples:
-                "committee":
+                committee:
                   value: [
                     f5285eeead8b5885a1420800de14b0d1960db1a990a6c2f7b517125bedc000db,
                     7ef044ba437057d6d944ace679b7f811335639a689064cd969dffc8b55a7cc19
                   ]
 
-  /api/v0/votes/active/plans:
+  /api/v0/vote/active/plans:
     get:
       description: Get active vote plans
       operationId: ActiveVotePlans
@@ -2289,12 +2302,19 @@ paths:
                             type: string
                             description: Hash of external id
                             pattern: '[0-9a-f]+'
+                            minLength: 64
+                            maxLength: 64
                           options:
                             type: object
                             properties:
-                              max_value:
-                                type: integer
-                                description: Maximum number of options
+                              OneOf:
+                                type: object
+                                properties:
+                                  max_value:
+                                    type: integer
+                                    description: Maximum number of options
+                                    minimum: 1
+                                    maximum: 15
                         required:
                           - external_id
                           - options
@@ -2303,3 +2323,39 @@ paths:
                     - vote_end
                     - committee_end
                     - proposals
+              examples:
+                committee:
+                  value: [
+                    {
+                      "committee_end": {
+                        "epoch": 10,
+                        "slot_id": 0
+                      },
+                      "proposals": [
+                        {
+                          "external_id": "adb92757155d09e7f92c9f100866a92dddd35abd2a789a44ae19ab9a1dbc3280",
+                          "options": {
+                            "OneOf": {
+                              "max_value": 3
+                            }
+                          }
+                        },
+                        {
+                          "external_id": "6778d37161c3962fe62c9fa8a31a55bccf6ec2d1ea254a467d8cd994709fc404",
+                          "options": {
+                            "OneOf": {
+                              "max_value": 3
+                            }
+                          }
+                        }
+                      ],
+                      "vote_end": {
+                        "epoch": 5,
+                        "slot_id": 0
+                      },
+                      "vote_start": {
+                        "epoch": 0,
+                        "slot_id": 0
+                      }
+                    }
+                  ]
